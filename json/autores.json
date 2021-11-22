@@ -1,0 +1,20 @@
+{
+    "autores": [
+        {
+            "autor": "Miguel",
+            "src": "images/avatar-migue.png"
+        },
+        {
+            "autor": "Alvaro",
+            "src": "images/avatar-alvaro.png"
+        },
+        {
+            "autor": "Jose",
+            "src": "images/avatar-jose.png"
+        },
+        {
+            "autor": "Raul",
+            "src": "images/avatar-raul.png"
+        }
+    ]
+}

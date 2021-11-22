@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 3</title>
+    <script defer src="scripts/script.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Pizzería 4 Jinetes</h1>
+            <h2>Pizzas gourmet a domicilio</h2>
+        </div>
+        <img src="images/pizza.png" alt="logo pizza" class="logo">
+    </header>
+
+    <form action="ejemplo.php" method="POST" id="formulario">
+        <div class="bloque bloque_1">
+            <h3>Información de contacto</h3>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="input input_nombre"><br>
+            <div class="mensajeError mensajeError1"></div>
+            <input type="text" id="dir" name="direccion" placeholder="Dirección" class="input input_dir"><br>
+            <div class="mensajeError mensajeError2"></div>
+            <input type="tel" id="tlf" name="telefono" placeholder="Teléfono" class="input input_tel"><br>
+            <div class="mensajeError mensajeError3"></div>
+            <input type="email" id="email" name="email" placeholder="Email" class="input input_email"><br>
+            <div class="mensajeError mensajeError4"></div>
+        </div>
+        <hr>
+
+        <div class="bloque bloque_2">
+            <h3>Seleccione el tamaño de la pizza</h3>
+            <div class="contenedor_pizzas">      
+                <!-- Todos los tamaños y sus características las obtenemos con AJAX -->
+            </div>
+            <div class="mensajeError mensajeError5"></div>
+        </div>
+        <hr>
+
+        <div class="bloque bloque_3">
+            <h3>Seleccione los ingredientes</h3>
+            <p>+1&euro;/ingrediente</p>
+            <div class="contenedor_ingredientes">
+                <!-- Todos los ingredientes y sus características los obtenemos con AJAX -->
+            </div>
+            <div class="mensajeError mensajeError6"></div>
+        </div>
+        <hr>
+        <div class="botones">
+            <input type="submit" value="Procesar pedido" class="submit">
+            <input type="reset" value="Borrar" class="reset">
+        </div>
+        <hr>
+        <div class="refrescar">
+            Pulse para refrescar la información del servidor
+            <img src="images/refresh.png" alt="refrescar" class="refresh">
+        </div>
+    </form>
+
+    <div class="modal hidden">
+        <button class="cerrar_modal">&times;</button>
+        <img src="images/reparto.png" alt="reparto" class="reparto">
+        <h3>¡Su pizza está en camino!</h3>
+        <p class="infoPedido"></p>
+        <p class="infoPedido2"></p>
+        <h3>Resumen del pedido</h3>
+        <p class="pizza"></p>
+        <p class="ingredientes"></p>
+        <h4 class="precioTotal"></h4>
+    </div>
+
+    <div class="overlay hidden"></div>
+
+    <footer>
+        <p>&copy; 2021 - Pizzería 4 Jinetes</p>
+        <div class="nosotros">
+            <!-- Todos los avatares de los autores los obtenemos con AJAX -->
+        </div>
+    </footer>
+
+</body>
+</html>

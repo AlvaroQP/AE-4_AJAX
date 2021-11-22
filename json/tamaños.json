@@ -1,0 +1,22 @@
+{
+    "tamaños": [
+        {
+            "tamaño": "pequeña",
+            "src": "images/icono_pizza.png",
+            "precio": 5,
+            "icono": 1
+        },
+        {
+            "tamaño": "mediana",
+            "src": "images/icono_pizza.png",
+            "precio": 10,
+            "icono": 2
+        },
+        {
+            "tamaño": "grande",
+            "src": "images/icono_pizza.png",
+            "precio": 15,
+            "icono": 3
+        }
+    ]
+}
