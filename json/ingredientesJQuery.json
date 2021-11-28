@@ -1,0 +1,30 @@
+{
+    "losIngredientes": {
+        "ingredientes": [
+            {
+                "ingrediente": "champi",
+                "src": "images/champi.png",
+                "value": "champiñon",
+                "precio": 1
+            },
+            {
+                "ingrediente": "tomate",
+                "src": "images/tomate.png",
+                "value": "tomate",
+                "precio": 1
+            },
+            {
+                "ingrediente": "york",
+                "src": "images/york.png",
+                "value": "york",
+                "precio": 1
+            },
+            {
+                "ingrediente": "bacon",
+                "src": "images/bacon.png",
+                "value": "bacon",
+                "precio": 1
+            }
+        ] 
+    }
+}
