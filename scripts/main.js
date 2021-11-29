@@ -14,20 +14,22 @@ $(document).ready(function(){
         $('contenedor_ingredientes').html('');
 
         primeraRequest();
-        segundaRequest();
 
     })
 
     //Botón enviar
     $('form').on('submit', function(event){
         let formValido = true;
+        let i=0
         event.preventDefault();
         procesarFormulario(formValido);
+        console.log(`El valor de control es: ${control}`);
+
     })
 
 
 });
-
+let control = 0;
 //Variables que se necesitan para mostrar el resultado de la compra
 let precioTotal = 0;
 let precioPizza = 0;
@@ -122,60 +124,68 @@ function avataresRequest(){
 }
 
 function procesarFormulario(formValido){
-
+    ++ control;
+    console.log(`El valor de formularioValido es ${formValido}`);
     let error = $('.mensajeError');
     $.each(error, function(){
         error.html('');
     })
+
+    let error2 = ['mensajeError1','mensajeError2','mensajeError3','mensajeError4','mensajeError5'];
+   
+    for(let i= 0; i<error2.length; i++){
+        $('mensajeError'[i]).html('');
+    }
     //Se resetean los campos necesarios
     reseteoDatos();
     const reNom= /^[A-Z]/;
     //validación de los inputs nombre, direccion, email y teléfono
-    if(!reNom.test($('#nombre').value) || $.trim($('#nombre').value) == ''){
+    if(!reNom.test($('#nombre').val()) || $.trim($('#nombre').val()) == ''){
         $('.mensajeError1').text('El nombre debe comenzar por mayúsculas');
         formValido = false;
     }
-
     // Dirección rellena
-    if($.trim($('input[name="direccion"]').value) =='') {
+    if($.trim($('input[name="direccion"]').val()) =='') {
         $('.mensajeError2').text("La dirección debe ser válida");
         formValido = false;
     }
-
     // Teléfono relleno y en formato correcto:
     const reTelf = /^[6-9][0-9]{8}$/;
-    if(!reTelf.test($('#tel').value) || $.trim($('tlf').value) =='') {
+    if(!reTelf.test($('#tlf').val()) || $.trim($('#tlf').val()) =='') {
         $('.mensajeError3').text("El teléfono debe tener un formato adecuado");
         formValido = false;
     }
-
     // Email relleno y en formato correcto:
     const reEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if(!reEmail.test($('#email').value) || $.trim($('#email').value) =='') {
+    if(!reEmail.test($('#email').val()) || $.trim($('#email').val()) =='') {
         $('.mensajeError4').text("El email debe tener un formato adecuado");
         formValido = false;
     }
-
     // Debe seleccionarse al menos un radio button
     let checked = false;
+    let suma = 0;
     const botonesRadio = $('.radio');
-    botonesRadio.each(function(rad) {
+    $.each(botonesRadio, function(i, rad) {
         if(rad.checked) {
             checked = true;
+            suma++;
         }
     });
 
-    if(!checked) {
+    if(checked && suma > 0){
+        formValido = true;
+    }
+    else {
         $('.mensajeError5').text("Debe seleccionar un tamaño para la pizza");
         formValido = false;
     }
-
     // Debe seleccionar al menos un checkbox
     checked = false;
     const botonesCheckbox = $('.checkbox');
-    botonesCheckbox.each(function(cbox) {
+    $.each(botonesCheckbox, function(i, cbox) {
         if(cbox.checked) {
             checked = true;
+            console.log(cbox.checked);
         }
     });
 
@@ -183,11 +193,10 @@ function procesarFormulario(formValido){
         $('.mensajeError6').text("Debe seleccionar al menos un ingrediente");
         formValido = false;
     }
-
+    console.log(`En este punto de control: ${control} el valor de formValido es: ${formValido}`)
     // Si el formulario es válido, abrimos modal mostrando información al cliente
     if(formValido) {
         calcularDatos();
-        abrirModal();
     }  
 
 
@@ -212,6 +221,7 @@ function reseteoDatos() {
 //==============================================================================================================
 
 function abrirModal() {
+    console.log('No se si llego')
     $('#modal').removeClass('hidden')
     $('#overlay').removeClass('hidden')
 }
@@ -240,7 +250,6 @@ $(document).on('keydown', function(event){
 
 // El precio será calculado desde el servidor mediante peticiones AJAX
 function calcularDatos() {
-    
     const botonesRadio = $('.radio');
 
     $.ajax({
@@ -251,9 +260,8 @@ function calcularDatos() {
     }).done(calcula1)
 
     function calcula1(tamañosJQuery){
-        let botonesRadio = $('.botonesRadio');
         let tamaños = tamañosJQuery.losTamaños.tamaños;
-        botonesRadio.each(function(boton) {
+        $.each(botonesRadio, function(i,boton) {
             if(boton.checked) {
                 pizzaElegida = boton.value
             }
@@ -268,15 +276,15 @@ function calcularDatos() {
         frase1 += `${pizzaElegida}`;
         // Sumamos el precio del tamaño de la pizza al precio total
         precioTotal += precioPizza;
-        $('mostrarPizza').textContent = frase1;    
+        $('.pizza').text(frase1);    
         // Pasamos a calcular los precios de los ingredientes dentro de una nueva función
         calcularDatos2();
     }
 }
 
 function calcularDatos2() {
-    
-    const botonesCheckbox = $('.checkBox');
+   
+    const bCheckbox = $('.checkbox');
 
     $.ajax({
         type: 'GET',
@@ -286,32 +294,43 @@ function calcularDatos2() {
     }).done(calcula2)
 
     function calcula2(ingredientesJQuery){
+        
         let ingredientes = ingredientesJQuery.losIngredientes.ingredientes;
-        botonesCheckbox.each(function(boton) {
+        console.log(ingredientes)
+        $.each(bCheckbox, function(i,boton) {
+            console.log(boton)
             if(boton.checked) {
                 ingreds.push(boton.value);
             }
         });
 
+        for(let i=0; i<ingreds.length; i++){
+            console.log(`los ingredientes elegidos son: ${ingreds[i]}`)
+        }
+        
+
         $.each(ingredientes, function(i, ing){
-            if(ing.includes(ing.value)) {
+            if(ingreds.includes(ing.value)) {
                 precioIngredientes += ing.precio;
             }
         })
 
+
         // Añadimos el precio de los ingredientes seleccionados al precio total
         precioTotal += precioIngredientes;
-
-        $.Each(ingreds, function(ingred, index){
+        
+        $.each(ingreds, function(index, ingred){
             if(index != ingreds.length-1){
                 frase2 += `${ingred} - `;
             }else{
                 frase2 += `${ingred}. `;
             }
         })
+    
+        abrirModal()
 
-        $('mostrarIndredientes').textContent(frase2);
-        $('mostrarPrecio').textContent(`Precio total: ${precioTotal}`);
+        $('.ingredientes').text(frase2);
+        $('.precioTotal').text(`Precio total: ${precioTotal}`);
 
         // Información a mostrar por el modal
         const mostrarFecha = new Intl.DateTimeFormat('es-Es', {
@@ -322,8 +341,10 @@ function calcularDatos2() {
             hour: 'numeric', minute: 'numeric',
         }).format(new Date());
 
-        $('.infoPedido').textContent(`Muchas gracias, ${$('nombre').value}, por su pedido realizado el ${mostrarFecha} a las ${mostrarHora}h.`);
+        $('.infoPedido').text(`Muchas gracias, ${$('#nombre').val()}, por su pedido realizado el ${mostrarFecha} a las ${mostrarHora}h.`);
 
-        $('infoPedido2').textContent(`Por favor, compruebe el email de confirmación enviado a: ${$('email').value}`);
+        $('.infoPedido2').text(`Por favor, compruebe el email de confirmación enviado a: ${$('#email').val()}`);
     }
+
+   
 }
