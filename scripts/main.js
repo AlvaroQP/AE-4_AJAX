@@ -9,27 +9,20 @@ $(document).ready(function(){
    
     //Botón refrescar página
     $('.refresh').on('click', function(){
-
         $('contenedor_pizzas').html('');
         $('contenedor_ingredientes').html('');
-
         primeraRequest();
-
     })
 
     //Botón enviar
     $('form').on('submit', function(event){
         let formValido = true;
-        let i=0
         event.preventDefault();
         procesarFormulario(formValido);
-        console.log(`El valor de control es: ${control}`);
-
     })
 
 
 });
-let control = 0;
 //Variables que se necesitan para mostrar el resultado de la compra
 let precioTotal = 0;
 let precioPizza = 0;
@@ -49,11 +42,8 @@ function primeraRequest(){
     }).done(primera);
 
     function primera(tamañosJQuery) {
-        console.log(arguments);
-        console.log(tamañosJQuery);
         //Accedemos al array de tamaños.
         let elemento = tamañosJQuery.losTamaños.tamaños
-        console.log(elemento);
         //Nos aseguramos que no se dupliquen filas
         $('.contenedor_pizzas').html('');
         //Con el bucle for-each cargamos la respuesta AJAX
@@ -79,8 +69,6 @@ function segundaRequest(){
 
     }).done(segunda);
     function segunda(ingredientesJQuery) {
-        console.log(arguments);
-        console.log(ingredientesJQuery);
         //Accedemos al array de tamaños.
         let ingrediente = ingredientesJQuery.losIngredientes.ingredientes
         console.log(ingrediente);
@@ -97,7 +85,6 @@ function segundaRequest(){
             </div>`).appendTo('.contenedor_ingredientes');
         })
     }
-
 }
 
 function avataresRequest(){
@@ -109,11 +96,8 @@ function avataresRequest(){
 
     }).done(avatares);
     function avatares(autoresJQuery) {
-        console.log(arguments);
-        console.log(autoresJQuery);
         //Accedemos al array de tamaños.
         let autor = autoresJQuery.losAutores.autores
-        console.log(autor);
         //Nos aseguramos que no se dupliquen filas
         $('.nosotros').html('');
         //Con el bucle for-each cargamos la respuesta AJAX
@@ -124,8 +108,6 @@ function avataresRequest(){
 }
 
 function procesarFormulario(formValido){
-    ++ control;
-    console.log(`El valor de formularioValido es ${formValido}`);
     let error = $('.mensajeError');
     $.each(error, function(){
         error.html('');
@@ -163,29 +145,24 @@ function procesarFormulario(formValido){
     }
     // Debe seleccionarse al menos un radio button
     let checked = false;
-    let suma = 0;
     const botonesRadio = $('.radio');
     $.each(botonesRadio, function(i, rad) {
         if(rad.checked) {
             checked = true;
-            suma++;
         }
     });
 
-    if(checked && suma > 0){
-        formValido = true;
-    }
-    else {
+    if(!checked){
         $('.mensajeError5').text("Debe seleccionar un tamaño para la pizza");
         formValido = false;
     }
+    
     // Debe seleccionar al menos un checkbox
     checked = false;
     const botonesCheckbox = $('.checkbox');
     $.each(botonesCheckbox, function(i, cbox) {
         if(cbox.checked) {
             checked = true;
-            console.log(cbox.checked);
         }
     });
 
@@ -193,14 +170,11 @@ function procesarFormulario(formValido){
         $('.mensajeError6').text("Debe seleccionar al menos un ingrediente");
         formValido = false;
     }
-    console.log(`En este punto de control: ${control} el valor de formValido es: ${formValido}`)
+
     // Si el formulario es válido, abrimos modal mostrando información al cliente
     if(formValido) {
         calcularDatos();
     }  
-
-
-
 }
 
 //==============================================================================================================
@@ -225,7 +199,11 @@ function reseteoInputs(){
     $('#email').val('');
     $('input[type=radio]').prop('checked',false);
     $('input[type=checkbox]').prop('checked',false);
-
+    $('.mensajeError1').text('');
+    $('.mensajeError2').text('');
+    $('.mensajeError3').text('');
+    $('.mensajeError4').text('');
+    $('.mensajeError5').text('');
 }
 
 //==============================================================================================================
