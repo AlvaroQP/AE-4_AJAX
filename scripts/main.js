@@ -213,9 +213,19 @@ function reseteoDatos() {
     frase1 = 'Pizza: ';
     frase2 = 'Ingredientes: ';
     ingreds = [];
-    //mostrarPizza.textContent = '';
-    //mostrarIngredientes.textContent = '';
-    //mostrarPrecio.textContent = '';
+    $('.pizza').text('');
+    $('ingredientes').text('');
+    $('.precioTotal').text('');
+}
+
+function reseteoInputs(){
+    $('#nombre').val('');
+    $('input[name="direccion"]').val('');
+    $('#tlf').val('');
+    $('#email').val('');
+    $('input[type=radio]').prop('checked',false);
+    $('input[type=checkbox]').prop('checked',false);
+
 }
 
 //==============================================================================================================
@@ -229,6 +239,8 @@ function abrirModal() {
 function cerrarModal() {
     $('#modal').addClass('hidden')
     $('#overlay').addClass('hidden')
+    reseteoDatos();
+    reseteoInputs();
 }
 
 // Podemos cerrar el modal clicando el botón "X"
