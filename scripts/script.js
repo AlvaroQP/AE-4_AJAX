@@ -333,6 +333,7 @@ function avataresRequest() {
         }
     });
 
+
     request3.addEventListener('error', function() {
         alert('Algo ha ido mal 😢😢😢');
     });

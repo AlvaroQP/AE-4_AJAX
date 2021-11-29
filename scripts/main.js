@@ -1,15 +1,38 @@
 $(document).ready(function(){
-    console.log('todo en orden');
-    
+
+    //Cuando carga la página mediante AJAX se carga la sección de 
+    //los tamañas, de los ingredientes y de las imagenes de los 
+    //componentes del equipo
+    primeraRequest();
+
+    segundaRequest();      
+
+    avataresRequest();
+   
+    //Botón refrescar página
+    $('.refresh').on('click', function(){
+
+        $('contenedor_pizzas').html('');
+        $('contenedor_ingredientes').html('');
+
+        primeraRequest();
+        segundaRequest();
+
+    })
+
+
+});
+
+function primeraRequest(){
     $.ajax({
         type : 'GET',
         url : 'http://localhost:5500/json/tamañosJQuery.json',
         async : true,
         dataType : 'json'
 
-    }).done(primeraRequest, segundaRequest, avataresRequest);
+    }).done(primera);
 
-    function primeraRequest(tamañosJQuery) {
+    function primera(tamañosJQuery) {
         console.log(arguments);
         console.log(tamañosJQuery);
         //Accedemos al array de tamaños.
@@ -28,15 +51,17 @@ $(document).ready(function(){
             </div>`).appendTo('.contenedor_pizzas');
         });
     }
+}
 
+function segundaRequest(){
     $.ajax({
         type : 'GET',
         url : 'http://localhost:5500/json/ingredientesJQuery.json',
         async : true,
         dataType : 'json'
 
-    }).done(segundaRequest);
-    function segundaRequest(ingredientesJQuery) {
+    }).done(segunda);
+    function segunda(ingredientesJQuery) {
         console.log(arguments);
         console.log(ingredientesJQuery);
         //Accedemos al array de tamaños.
@@ -56,14 +81,17 @@ $(document).ready(function(){
         })
     }
 
+}
+
+function avataresRequest(){
     $.ajax({
         type : 'GET',
         url : 'http://localhost:5500/json/autoresJQuery.json',
         async : true,
         dataType : 'json'
 
-    }).done(avataresRequest);
-    function avataresRequest(autoresJQuery) {
+    }).done(avatares);
+    function avatares(autoresJQuery) {
         console.log(arguments);
         console.log(autoresJQuery);
         //Accedemos al array de tamaños.
@@ -76,8 +104,4 @@ $(document).ready(function(){
             $(`<img src="${aut.src}" alt="${aut.autor}" class="imagen_autor">`).appendTo('.nosotros');
         })
     }
-
-
-});
-
-
+}
